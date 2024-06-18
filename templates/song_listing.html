@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h2>Song List</h2>
+   <form method="get" class="form-inline mb-3">
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+
+  <div class="row">
+    {% for song in songs %}
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{ song.title }}</h5>
+            <p class="card-text">Artist: {{ song.artist }}</p>
+            <p class="card-text">Genre: {{ song.genre }}</p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No songs found.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+
+      <div class="card">
+        <div class="card-header">
+          <h2>{{ profile.user.username }}'s Profile</h2>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              {% if profile.favorite_genre %}
+              <p><strong>Favorite Genre:</strong> {{ profile.favorite_genre }}</p>
+              {% else %}
+              <p><strong>Favorite Genre:</strong> You haven't selected one yet</p>
+              {% endif %}
+            </div>
+            <div class="col-md-6 text-right">
+              <a href="{% url 'update_profile' %}" class="btn btn-primary">Edit Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header">
+          <h3>Your Playlists</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for playlist in playlists %}
+          <li class="list-group-item">
+            <a href="{% url 'playlist_detail' playlist.pk %}">{{ playlist.name }}</a>
+            {% if playlist.get_is_public_display %}
+            <span class="badge badge-info float-right">Public</span>
+            {% else %}
+            <span class="badge badge-secondary float-right">Private</span>
+            {% endif %}
+          </li>
+          {% empty %}
+          <li class="list-group-item">No playlists found.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header">
+          <h3>Public Playlists</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for playlist in your_public_playlists %}
+          <li class="list-group-item">
+            <a href="{% url 'playlist_detail' playlist.pk %}">{{ playlist.name }}</a>
+          </li>
+          {% empty %}
+          <li class="list-group-item">You haven't created any public Plalists</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header">
+          <h3>Recommendations Based on Favorite Genre</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for song in genre_recommendations %}
+          <li class="list-group-item">{{ song.title }} by {{ song.artist }} - Genre: {{ song.genre }}</li>
+          {% empty %}
+          <li class="list-group-item">No recommendations available.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header">
+          <h3>Recommendations Based on Most Added Artist</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for song in artist_recommendations %}
+          <li class="list-group-item">{{ song.title }} by {{ song.artist }} - Genre: {{ song.genre }}</li>
+          {% empty %}
+          <li class="list-group-item">You haven't added any songs to your playlists yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="card mt-4 mb-4">
+        <div class="card-header">
+          <h3>Recommendations Based on Most Added Genre</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for song in playlist_genre_recommendations %}
+          <li class="list-group-item">{{ song.title }} by {{ song.artist }} - Genre: {{ song.genre }}</li>
+          {% empty %}
+          <li class="list-group-item">You haven't added any songs to your playlists yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

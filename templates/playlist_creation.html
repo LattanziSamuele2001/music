@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+  <div class="card mt-4">
+    <div class="card-body">
+      <h2 class="card-title">Create Playlist</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+         <div>If you want to share it with other Users check "is Public"</div>
+        <button type="submit" class="btn btn-primary mt-3">Create Playlist</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="card mt-4">
+    <div class="card-body">
+      <h2 class="card-title">Playlist: {{ playlist.name }}</h2>
+      <p class="card-text">Created by: {{ playlist.user.username }}</p>
+      <p class="card-text">{{ playlist.description }}</p>
+
+      <h3 class="card-subtitle mb-3 mt-4">Songs</h3>
+      <ul class="list-group">
+        {% for song in songs %}
+          <li class="list-group-item">
+            {{ song.title }} by {{ song.artist }} - Genre: {{ song.genre }}
+          </li>
+        {% empty %}
+          <li class="list-group-item">No songs in this playlist.</li>
+        {% endfor %}
+      </ul>
+
+      {% if request.user == playlist.user %}
+        <a href="{% url 'update_playlist' playlist.pk %}" class="btn btn-primary mt-3">Edit Playlist</a>
+      {% endif %}
+      <a href="{% url 'user_playlists' %}" class="btn btn-secondary mt-3">Back to all playlists</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

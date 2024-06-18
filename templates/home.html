@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card mt-4">
+        <div class="card-body">
+          {% if user.is_authenticated %}
+            <h2 class="card-title">Welcome, {{ user.username }}</h2>
+            <p class="card-text">Check your <a href="{% url 'user_profile' %}" class="btn btn-primary btn-sm">Profile</a></p>
+            <p class="card-text">Create your own Playlists <a href="{% url 'playlist_creation' %}" class="btn btn-primary btn-sm">Create Playlist</a></p>
+            <p class="card-text">See all your Playlists <a href="{% url 'user_playlists' %}" class="btn btn-primary btn-sm">Your Playlists</a></p>
+            <p class="card-text"><a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a></p>
+          {% else %}
+            <h2 class="card-title">Seems like you aren't Authenticated</h2>
+            <p class="card-text">Log in <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Here</a></p>
+            <p class="card-text">Register <a href="{% url 'registration' %}" class="btn btn-primary btn-sm">Here</a></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

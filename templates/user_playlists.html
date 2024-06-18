@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mt-4">
+        <div class="card-body">
+          <h2 class="card-title">Your Playlists</h2>
+          <ul class="list-group">
+            {% for playlist in user_playlists %}
+              <li class="list-group-item">
+                <a href="{% url 'playlist_detail' playlist.pk %}">{{ playlist.name }}</a>
+                {% if playlist.is_public %}
+                  <span class="badge badge-primary">Public</span>
+                {% else %}
+                  <span class="badge badge-secondary">Private</span>
+                {% endif %}
+              </li>
+            {% empty %}
+              <li class="list-group-item">No playlists available.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card mt-4">
+        <div class="card-body">
+          <h2 class="card-title">Public Playlists</h2>
+          <ul class="list-group">
+            {% for playlist in public_playlists %}
+              <li class="list-group-item">
+                <a href="{% url 'playlist_detail' playlist.pk %}">{{ playlist.name }} by {{ playlist.user.username }}</a>
+              </li>
+            {% empty %}
+              <li class="list-group-item">No public playlists available.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
